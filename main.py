@@ -12,6 +12,7 @@ long = False
 
 @app.route('/single', methods=['GET'])
 def one_press():
+    global single
     print('single')
     single = True
     return 'I got you'
@@ -19,6 +20,7 @@ def one_press():
 
 @app.route('/double', methods=['GET'])
 def two_presses():
+    global double
     print('double')
     double = True
     return 'I got you'
@@ -26,12 +28,14 @@ def two_presses():
 
 @app.route('/long', methods=['GET'])
 def long_press():
+    global long
     print('long')
     long = True
     return 'I got you'
 
 
 if __name__ == '__main__':
+    global single, double, long
     app.run(host='0.0.0.0', threaded=True, port=5000)
     while True:
         if single:
