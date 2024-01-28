@@ -35,7 +35,6 @@ def long_press():
 
 
 if __name__ == '__main__':
-    global single, double, long
     app.run(host='0.0.0.0', threaded=True, port=5000)
     while True:
         if single:
