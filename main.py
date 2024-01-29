@@ -2,52 +2,64 @@ import time
 from time import sleep
 from flask import Flask
 import pifacedigitalio
+import threading
 
 app = Flask(__name__)
 pfd = pifacedigitalio.PiFaceDigital()
 
-single = False
-double = False
-long = False
+green = 0
+red = 1
+
 
 @app.route('/single', methods=['GET'])
 def one_press():
-    global single
     print('single')
-    single = True
+    t = threading.Thread(target=one_press_action)
+    t.start()
     return 'I got you'
+
+
+def one_press_action():
+    for i in range(10):
+        pfd.relays[green].value = 1
+        time.sleep(1)
+        pfd.relays[green].value = 0
+        time.sleep(1)
 
 
 @app.route('/double', methods=['GET'])
 def two_presses():
-    global double
     print('double')
-    double = True
+    t = threading.Thread(target=double_press_action)
+    t.start()
     return 'I got you'
+
+
+def double_press_action():
+    for i in range(10):
+        pfd.relays[red].value = 1
+        pfd.relays[green].value = 0
+        time.sleep(1)
+        pfd.relays[red].value = 0
+        pfd.relays[green].value = 1
+        time.sleep(1)
 
 
 @app.route('/long', methods=['GET'])
 def long_press():
-    global long
     print('long')
-    long = True
+    t = threading.Thread(target=long_press_action)
+    t.start()
     return 'I got you'
+
+
+def long_press_action():
+    for i in range(10):
+        pfd.relays[red].value = 1
+        time.sleep(1)
+        pfd.relays[red].value = 0
+        time.sleep(1)
 
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', threaded=True, port=5000)
-    while True:
-        if single:
-            pfd.relays[0].value = 1
-        elif double:
-            pfd.relays[1].value = 1
-        elif long:
-            pfd.relays[0].value = 0
-            pfd.relays[1].value = 0
-            single = False
-            double = False
-            long = False
-        time.sleep(1)
-        pfd.relays[0].value = 0
-        pfd.relays[1].value = 0
-        time.sleep(1)
