@@ -22,9 +22,10 @@ def one_press():
 def one_press_action():
     for i in range(10):
         pfd.relays[green].value = 1
-        time.sleep(1)
+        time.sleep(0.1)
         pfd.relays[green].value = 0
-        time.sleep(1)
+        time.sleep(0.1)
+    reset_all_lights()
 
 
 @app.route('/double', methods=['GET'])
@@ -39,10 +40,11 @@ def double_press_action():
     for i in range(10):
         pfd.relays[red].value = 1
         pfd.relays[green].value = 0
-        time.sleep(1)
+        time.sleep(0.1)
         pfd.relays[red].value = 0
         pfd.relays[green].value = 1
-        time.sleep(1)
+        time.sleep(0.1)
+    reset_all_lights()
 
 
 @app.route('/long', methods=['GET'])
@@ -56,9 +58,15 @@ def long_press():
 def long_press_action():
     for i in range(10):
         pfd.relays[red].value = 1
-        time.sleep(1)
+        time.sleep(0.1)
         pfd.relays[red].value = 0
-        time.sleep(1)
+        time.sleep(0.1)
+    reset_all_lights()
+
+
+def reset_all_lights():
+    pfd.relays[green].value = 0
+    pfd.relays[red].value = 0
 
 
 if __name__ == '__main__':
