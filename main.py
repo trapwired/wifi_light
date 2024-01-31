@@ -20,7 +20,7 @@ def one_press():
 
 def one_press_action():
     pfd.relays[green].value = 1
-    time.sleep(10)
+    time.sleep(60)
     reset_all_lights()
 
 
@@ -33,7 +33,7 @@ def two_presses():
 
 def double_press_action():
     pfd.relays[red].value = 1
-    time.sleep(10)
+    time.sleep(60)
     reset_all_lights()
 
 
@@ -45,11 +45,11 @@ def long_press():
 
 
 def long_press_action():
-    for i in range(10):
+    for i in range(30):
         pfd.relays[red].value = 1
-        time.sleep(0.2)
+        time.sleep(0.4)
         pfd.relays[red].value = 0
-        time.sleep(0.2)
+        time.sleep(0.4)
     reset_all_lights()
 
 
