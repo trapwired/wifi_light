@@ -14,53 +14,42 @@ red = 1
 @app.route('/single', methods=['GET'])
 def one_press():
     print('single')
-    t = threading.Thread(target=one_press_action)
-    t.start()
+    threading.Thread(target=one_press_action).start()
     return 'I got you'
 
 
 def one_press_action():
-    for i in range(10):
-        pfd.relays[green].value = 1
-        time.sleep(0.1)
-        pfd.relays[green].value = 0
-        time.sleep(0.1)
+    pfd.relays[green].value = 1
+    time.sleep(10)
     reset_all_lights()
 
 
 @app.route('/double', methods=['GET'])
 def two_presses():
     print('double')
-    t = threading.Thread(target=double_press_action)
-    t.start()
+    threading.Thread(target=double_press_action).start()
     return 'I got you'
 
 
 def double_press_action():
-    for i in range(10):
-        pfd.relays[red].value = 1
-        pfd.relays[green].value = 0
-        time.sleep(0.1)
-        pfd.relays[red].value = 0
-        pfd.relays[green].value = 1
-        time.sleep(0.1)
+    pfd.relays[red].value = 1
+    time.sleep(10)
     reset_all_lights()
 
 
 @app.route('/long', methods=['GET'])
 def long_press():
     print('long')
-    t = threading.Thread(target=long_press_action)
-    t.start()
+    threading.Thread(target=long_press_action).start()
     return 'I got you'
 
 
 def long_press_action():
     for i in range(10):
         pfd.relays[red].value = 1
-        time.sleep(0.1)
+        time.sleep(0.2)
         pfd.relays[red].value = 0
-        time.sleep(0.1)
+        time.sleep(0.2)
     reset_all_lights()
 
 
